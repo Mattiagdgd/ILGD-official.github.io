@@ -1,1 +1,0 @@
-# spotx-official.github.io
