@@ -9,6 +9,7 @@ Questo progetto contiene uno script Python (`sync_playlists.py`) che mantiene si
 
 ## Configurazione rapida su Replit
 1. **Crea un nuovo Repl** basato su template *Python* e importa questo repository da GitHub.
+   - Se usi GitHub, lavora direttamente sul branch **main** per evitare di dover unire branch separati quando il Repl viene aggiornato: imposta il branch di default a `main` e fai push lì per avere il codice subito disponibile all'import.
 2. Apri la sezione **Tools → Secrets** e aggiungi le seguenti variabili:
    - `SPOTIFY_CLIENT_ID` e `SPOTIFY_CLIENT_SECRET`: presi dalla tua app su [Spotify for Developers](https://developer.spotify.com/dashboard/).
    - `SPOTIFY_REFRESH_TOKEN`: ottienilo con il tuo account (scope `playlist-read-private playlist-modify-public playlist-modify-private`).
