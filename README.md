@@ -33,6 +33,16 @@ Questo progetto contiene uno script Python (`sync_playlists.py`) che mantiene si
 4. Installa le dipendenze con `pip install -r requirements.txt` (su Replit viene eseguito automaticamente al primo run).
 5. Avvia lo script con `python sync_playlists.py`. Il log finale mostrerà quanti brani sono stati aggiunti su ciascuna piattaforma.
 
+## Creare (o aggiornare) una Pull Request senza errori
+- **Rimani su `main`**: lavora direttamente sul branch `main` (già impostato) così Replit importa sempre l’ultima versione senza merge aggiuntivi.
+- **Dopo la correzione**: esegui un test rapido (`python -m compileall sync_playlists.py spotify_refresh_token.py`) per verificare che non ci siano errori di sintassi.
+- **Apri la PR**: usa “Create Pull Request” dal branch `main`.
+- **Se compaiono conflitti**:
+  - **Accept Current Changes** per mantenere la tua versione locale.
+  - **Accept Incoming Changes** per sovrascrivere con la versione del branch remoto.
+  - **Accept Both Changes** se vuoi unire parti utili di entrambe le versioni (poi rimuovi i duplicati e i marcatori di conflitto).
+- **Controllo finale**: ricompila o rilancia lo script; se tutto è ok, completa la PR.
+
 ## Come funziona
 - Lo script legge le playlist, costruisce una chiave `titolo + artista` e aggiunge solo i brani che non sono già presenti sull'altra piattaforma.
 - Per ogni brano mancante, effettua una ricerca (`search`) e usa il primo risultato disponibile prima di aggiungerlo alla playlist.
