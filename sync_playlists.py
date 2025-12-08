@@ -11,19 +11,8 @@ from typing import Iterable, List, Optional, Tuple
 
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth, SpotifyOauthError
+from spotipy.oauth2 import SpotifyOAuth
 from ytmusicapi import YTMusic
-
-
-DEFAULT_VARS = {
-    "SPOTIFY_CLIENT_ID": "4a2e9bd9c5bb4c05a0b05f1062ac7e70",
-    "SPOTIFY_CLIENT_SECRET": "650e7d4a91cc4fae896bc3f0b0ff0ee7",
-    "SPOTIFY_PLAYLIST_ID": "https://open.spotify.com/playlist/12rwd7QxhciiOkEimw2Sav?si=sPPoIMPqQr-r6uhXFnCa3g",
-    "YTMUSIC_PLAYLIST_ID": "PLd7k0zXVIOKuZE6w37l7hHWcJ20BpGhXj",
-    "SPOTIFY_REDIRECT_URI": "https://3fa005f4-6983-4dd5-9e92-9606417872ae-00-375ctzyoxwck0.worf.replit.dev/callback",
-    "SPOTIFY_REFRESH_TOKEN": "AQDBxIMcB1xfvzFvVTQjHt0Y342XrqpjY8GrflDqJcGdkf2dLI5kWmcYmZe4XSZwww-dicNvf7BMFTqAaqa0LYdaHtv\
-gH7qKkOea13s2guFn5WZI2xIG2qoGkwrFa3-29ts",
-    "YTMUSIC_COOKIE": "SOCS=CAAaBgiAqtjJBg; __Secure-YENID=12.YTE=MupJPZ3FrtB3tihqEPBoi_yQ-6lDCaMhcp1VRWe2ME4cLttbm6O6eGGc39bRE5OnY-xnH9NQF5orqLH5JhjtSEF7QSeXgxsIitzioqvbiaOFSOvqbik3AnqTcy6hdAN373_XLFzus2oy2eEaPv1letlqhAaR-tf_zutHS26IJAPelpodLW5FkGO7Dwv45u7f291Xd-hAR4pcbckwXa_N3drPO3bgJ7hs8zr3tF0Y5k7EyBhllAH1D5O6skvtojs6UP-gI1Yf4rI_Jw5nK1y9uI46LZZCzqNq2Wx5oFqcfaMX8CGWEkvS5joxqRQGxST8Yd2PmTjZUb6Qpb62rodpYg; YSC=ANTH7J0gu7Q; VISITOR_PRIVACY_METADATA=CgJJVBIhEh0SGwsMDg8QERITFBUWFxgZGhscHR4fICEiIyQlJiAd; __Secure-1PSIDTS=sidts-CjQBfl…fICEiIyQlJiAdYuACCt0CMTIuWVRFPU11cEpQWjNGcnRCM3RpaHFFUEJvaV95US02bERDYU1oY3AxVlJXZTJNRTRjTHR0Ym02TzZlR0djMzliUkU1T25ZLXhuSDlOUUY1b3JxTEg1SmhqdFNFRjdRU2VYZ3hzSWl0emlvcXZiaWFPRlNPdnFiaWszQW5xVGN5NmhkQU4zNzNfWExGenVzMm95MmVFYVB2MWxldGxxaEFhUi10Zl96dXRIUzI2SUpBUGVscG9kTFc1RmtHTzdEd3Y0NXU3ZjI5MVhkLWhBUjRwY2Jja3dYYV9OM2RyUE8zYmdKN2hzOHpyM3RGMFk1azdFeUJobGxBSDFENU82c2t2dG9qczZVUC1nSTFZZjRySV9KdzVuSzF5OXVJNDZMWlpDenFOcTJXeDVvRnFjZmFNWDhDR1dFa3ZTNWpveHFSUUd4U1Q4WWQyUG1UalpVYjZRcGI2MnJvZHBZZw==; PREF=repeat=NONE",
-}
 
 
 @dataclass
@@ -53,6 +42,9 @@ class SpotifyClient:
                 "spotify_refresh_token.py e assicurati che SPOTIFY_REDIRECT_URI combaci con quello "
                 "registrato nell'app Spotify."
             ) from exc
+            cache_path=None,
+        )
+        self.auth_manager.refresh_access_token(refresh_token)
         self.api = Spotify(auth_manager=self.auth_manager)
 
     def get_playlist_tracks(self, playlist_id: str) -> List[Track]:
@@ -121,6 +113,7 @@ class YTMusicClient:
                 "Autenticazione YouTube Music fallita: verifica di aver incollato il cookie da "
                 "music.youtube.com (non da youtube.com) e senza andare in scadenza."
             ) from exc
+        self.api = YTMusic(auth=cookie)
 
     def get_playlist_tracks(self, playlist_id: str) -> List[Track]:
         playlist = self.api.get_playlist(playlist_id, limit=5000)
@@ -217,4 +210,13 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+DEFAULT_VARS = {
+    "SPOTIFY_CLIENT_ID": "4a2e9bd9c5bb4c05a0b05f1062ac7e70",
+    "SPOTIFY_CLIENT_SECRET": "650e7d4a91cc4fae896bc3f0b0ff0ee7",
+    "SPOTIFY_PLAYLIST_ID": "https://open.spotify.com/playlist/12rwd7QxhciiOkEimw2Sav?si=sPPoIMPqQr-r6uhXFnCa3g",
+    "YTMUSIC_PLAYLIST_ID": "PLd7k0zXVIOKuZE6w37l7hHWcJ20BpGhXj",
+    "SPOTIFY_REDIRECT_URI": "https://3fa005f4-6983-4dd5-9e92-9606417872ae-00-375ctzyoxwck0.worf.replit.dev/callback",
+    "SPOTIFY_REFRESH_TOKEN": "AQDBxIMcB1xfvzFvVTQjHt0Y342XrqpjY8GrflDqJcGdkf2dLI5kWmcYmZe4XSZwww-dicNvf7BMFTqAaqa0LYdaHtvgH7qKkOea13s2guFn5WZI2xIG2qoGkwrFa3-29ts",
+    "YTMUSIC_COOKIE": "SOCS=CAAaBgiAqtjJBg; __Secure-YENID=12.YTE=MupJPZ3FrtB3tihqEPBoi_yQ-6lDCaMhcp1VRWe2ME4cLttbm6O6eGGc39bRE5OnY-xnH9NQF5orqLH5JhjtSEF7QSeXgxsIitzioqvbiaOFSOvqbik3AnqTcy6hdAN373_XLFzus2oy2eEaPv1letlqhAaR-tf_zutHS26IJAPelpodLW5FkGO7Dwv45u7f291Xd-hAR4pcbckwXa_N3drPO3bgJ7hs8zr3tF0Y5k7EyBhllAH1D5O6skvtojs6UP-gI1Yf4rI_Jw5nK1y9uI46LZZCzqNq2Wx5oFqcfaMX8CGWEkvS5joxqRQGxST8Yd2PmTjZUb6Qpb62rodpYg; YSC=ANTH7J0gu7Q; VISITOR_PRIVACY_METADATA=CgJJVBIhEh0SGwsMDg8QERITFBUWFxgZGhscHR4fICEiIyQlJiAd; __Secure-1PSIDTS=sidts-CjQBfl…fICEiIyQlJiAdYuACCt0CMTIuWVRFPU11cEpQWjNGcnRCM3RpaHFFUEJvaV95US02bERDYU1oY3AxVlJXZTJNRTRjTHR0Ym02TzZlR0djMzliUkU1T25ZLXhuSDlOUUY1b3JxTEg1SmhqdFNFRjdRU2VYZ3hzSWl0emlvcXZiaWFPRlNPdnFiaWszQW5xVGN5NmhkQU4zNzNfWExGenVzMm95MmVFYVB2MWxldGxxaEFhUi10Zl96dXRIUzI2SUpBUGVscG9kTFc1RmtHTzdEd3Y0NXU3ZjI5MVhkLWhBUjRwY2Jja3dYYV9OM2RyUE8zYmdKN2hzOHpyM3RGMFk1azdFeUJobGxBSDFENU82c2t2dG9qczZVUC1nSTFZZjRySV9KdzVuSzF5OXVJNDZMWlpDenFOcTJXeDVvRnFjZmFNWDhDR1dFa3ZTNWpveHFSUUd4U1Q4WWQyUG1UalpVYjZRcGI2MnJvZHBZZw==; PREF=repeat=NONE",
+}
 
