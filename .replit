@@ -1,0 +1,5 @@
+run = "python sync_playlists.py"
+alwaysOn = true
+
+[nix]
+channel = "stable-24_05"
