@@ -23,6 +23,7 @@ Questo progetto contiene uno script Python (`sync_playlists.py`) che mantiene si
      ```
    > **Suggerimento**: sostituisci questi valori con le tue credenziali per evitare che i token preconfigurati scadano o non abbiano accesso alle tue playlist.
 3. Apri la sezione **Tools → Secrets** e, se vuoi usare le tue credenziali, sovrascrivi i valori di cui sopra:
+2. Apri la sezione **Tools → Secrets** e aggiungi le seguenti variabili:
    - `SPOTIFY_CLIENT_ID` e `SPOTIFY_CLIENT_SECRET`: presi dalla tua app su [Spotify for Developers](https://developer.spotify.com/dashboard/).
    - `SPOTIFY_REFRESH_TOKEN`: ottienilo con il tuo account (scope `playlist-read-private playlist-modify-public playlist-modify-private`).
    - `SPOTIFY_REDIRECT_URI`: lo stesso URI registrato nella dashboard Spotify. Puoi usare `http://localhost:8888/callback` in locale oppure l'URL del tuo Repl con `/callback` (es. `https://<il-tuo-nome>.<user>.repl.co/callback`).
@@ -32,6 +33,8 @@ Questo progetto contiene uno script Python (`sync_playlists.py`) che mantiene si
    - `SYNC_DIRECTION` *(opzionale)*: `both` (default), `spotify_to_yt` oppure `yt_to_spotify` per limitare la direzione di sincronizzazione.
 4. Installa le dipendenze con `pip install -r requirements.txt` (su Replit viene eseguito automaticamente al primo run).
 5. Avvia lo script con `python sync_playlists.py`. Il log finale mostrerà quanti brani sono stati aggiunti su ciascuna piattaforma.
+3. Installa le dipendenze con `pip install -r requirements.txt` (su Replit viene eseguito automaticamente al primo run).
+4. Avvia lo script con `python sync_playlists.py`. Il log finale mostrerà quanti brani sono stati aggiunti su ciascuna piattaforma.
 
 ## Come funziona
 - Lo script legge le playlist, costruisce una chiave `titolo + artista` e aggiunge solo i brani che non sono già presenti sull'altra piattaforma.

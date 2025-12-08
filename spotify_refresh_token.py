@@ -7,12 +7,6 @@ from spotipy.oauth2 import SpotifyOAuth
 
 SCOPE = "playlist-read-private playlist-modify-private playlist-modify-public"
 
-DEFAULT_VARS = {
-    "SPOTIFY_CLIENT_ID": "4a2e9bd9c5bb4c05a0b05f1062ac7e70",
-    "SPOTIFY_CLIENT_SECRET": "650e7d4a91cc4fae896bc3f0b0ff0ee7",
-    "SPOTIFY_REDIRECT_URI": "https://3fa005f4-6983-4dd5-9e92-9606417872ae-00-375ctzyoxwck0.worf.replit.dev/callback",
-}
-
 
 def _env_or_input(name: str, prompt: str) -> str:
     value = os.getenv(name)
@@ -25,9 +19,6 @@ def _env_or_input(name: str, prompt: str) -> str:
 
 
 def main() -> None:
-    for key, value in DEFAULT_VARS.items():
-        os.environ.setdefault(key, value)
-
     client_id = _env_or_input("SPOTIFY_CLIENT_ID", "Spotify Client ID: ")
     client_secret = _env_or_input("SPOTIFY_CLIENT_SECRET", "Spotify Client Secret: ")
     redirect_uri = _env_or_input(

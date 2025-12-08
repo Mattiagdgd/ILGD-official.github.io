@@ -11,6 +11,7 @@ from typing import Iterable, List, Optional, Tuple
 
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth, SpotifyOauthError
+from spotipy.oauth2 import SpotifyOAuth
 from ytmusicapi import YTMusic
 
 
@@ -41,6 +42,9 @@ class SpotifyClient:
                 "spotify_refresh_token.py e assicurati che SPOTIFY_REDIRECT_URI combaci con quello "
                 "registrato nell'app Spotify."
             ) from exc
+            cache_path=None,
+        )
+        self.auth_manager.refresh_access_token(refresh_token)
         self.api = Spotify(auth_manager=self.auth_manager)
 
     def get_playlist_tracks(self, playlist_id: str) -> List[Track]:
@@ -109,6 +113,7 @@ class YTMusicClient:
                 "Autenticazione YouTube Music fallita: verifica di aver incollato il cookie da "
                 "music.youtube.com (non da youtube.com) e senza andare in scadenza."
             ) from exc
+        self.api = YTMusic(auth=cookie)
 
     def get_playlist_tracks(self, playlist_id: str) -> List[Track]:
         playlist = self.api.get_playlist(playlist_id, limit=5000)
